@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:loan_app/app/eligibility_validation/controller/eligibility_validation_controller.dart';
-
+import 'package:loan_app/routes/routes.dart';
 import 'package:loan_app/utils/buttons/custom_button.dart';
 import 'package:loan_app/utils/color/kcolors.dart';
 import 'package:loan_app/utils/lang/app_lang.dart';
@@ -21,6 +21,15 @@ class EligibilityValidationPage
           backgroundColor: KColors.white,
           appBar: AppBar(
             title: Text(appLang.eligibilityValidation),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Text(
+                  "Step 2/5",
+                  style: KTextStyles.appbarTitle.copyWith(color: KColors.white),
+                ),
+              )
+            ],
           ),
           body: ListView(
             padding: EdgeInsets.symmetric(
@@ -214,6 +223,7 @@ class EligibilityValidationPage
                             groupValue: controller.carSelection.value,
                             onChanged: (val) {
                               controller.carSelection.value = val.toString();
+                              controller.eligibilityId.value = "0";
                             },
                           ),
                           Text(
@@ -231,6 +241,7 @@ class EligibilityValidationPage
                             groupValue: controller.carSelection.value,
                             onChanged: (val) {
                               controller.carSelection.value = val.toString();
+                              controller.eligibilityId.value = "0";
                             },
                           ),
                           Text(
@@ -268,6 +279,7 @@ class EligibilityValidationPage
                             groupValue: controller.houseSelection.value,
                             onChanged: (val) {
                               controller.houseSelection.value = val.toString();
+                              controller.eligibilityId.value = "0";
                             },
                           ),
                           Text(
@@ -285,6 +297,7 @@ class EligibilityValidationPage
                             groupValue: controller.houseSelection.value,
                             onChanged: (valu) {
                               controller.houseSelection.value = valu.toString();
+                              controller.eligibilityId.value = "0";
                             },
                           ),
                           Text(
@@ -307,7 +320,8 @@ class EligibilityValidationPage
               ),
               // if (controller.eligibility == null ||
               //     controller.eligibility == null)
-              if (controller.eligibility == null)
+              if (controller.eligibility == null &&
+                  controller.eligibilityId.value == "0")
                 Padding(
                   padding: EdgeInsets.all(KSizes.hGapMedium),
                   child: CustomButton(
@@ -316,6 +330,16 @@ class EligibilityValidationPage
                     },
                     name: appLang.submit,
                   ),
+                ),
+              if (controller.nameController.text.isNotEmpty &&
+                  controller.eligibilityId.value == "1" || controller.nameController.text.isNotEmpty)
+                Padding(
+                  padding: EdgeInsets.all(KSizes.hGapMedium),
+                  child: CustomButton(
+                      onTap: () {
+                        controller.goToBankAccountValidationPage();
+                      },
+                      name: "Next"),
                 ),
             ],
           ),

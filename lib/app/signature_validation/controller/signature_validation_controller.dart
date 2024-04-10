@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loan_app/app/personal_info/model/personal_info_model.dart';
 import 'package:loan_app/app/signature_validation/api/signature_validation_api.dart';
+import 'package:loan_app/routes/routes.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:ui' as ui;
-
 
 class SignatureValidationController extends GetxController {
   @override
@@ -35,7 +35,7 @@ class SignatureValidationController extends GetxController {
     );
 
     if (isSaved) {
-      Get.back<bool>(result: true);
+      Get.offAllNamed(Routes.navigationPage);
     }
     isLoading.value = false;
   }

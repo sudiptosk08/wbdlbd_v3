@@ -8,6 +8,7 @@ import 'package:loan_app/utils/buttons/custom_button.dart';
 import 'package:loan_app/utils/color/kcolors.dart';
 import 'package:loan_app/utils/lang/app_lang.dart';
 import 'package:loan_app/utils/sizes/k_sizes.dart';
+import 'package:loan_app/utils/text_utils/k_text_styles.dart';
 import 'package:loan_app/utils/text_utils/text_utils.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
@@ -23,6 +24,16 @@ class SignatureValidationPage extends GetView<SignatureValidationController> {
             backgroundColor: KColors.white,
             appBar: AppBar(
               title: Text(appLang.signatureValidation),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Text(
+                    "Step 5/5",
+                    style:
+                        KTextStyles.appbarTitle.copyWith(color: KColors.white),
+                  ),
+                )
+              ],
             ),
             body: ListView(
               children: [

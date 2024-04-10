@@ -24,6 +24,16 @@ class BankAccountValidationPage
             backgroundColor: KColors.white,
             appBar: AppBar(
               title: Text(appLang.bankAccountValidation),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Text(
+                    "Step 3/5",
+                    style:
+                        KTextStyles.appbarTitle.copyWith(color: KColors.white),
+                  ),
+                )
+              ],
             ),
             body: ListView(
               children: [
@@ -151,26 +161,25 @@ class BankAccountValidationPage
                     ],
                   ),
                 ),
-                if (controller.bankAccount == null)
+                if (controller.bankAccount == null &&
+                    controller.bankValidationId.value == "0")
                   // || controller.bankAccount?.verifiedAt == null)
                   Padding(
                     padding: EdgeInsets.all(KSizes.hGapMedium),
                     child: CustomButton(
                         onTap: () {
-                          // controller.bankAccount == null
-                          //     ? controller.saveBankAccount()
-                          //     : controller.bankAccount != null &&
-                          //             controller.bankAccount?.verifiedAt == null
-                          //         ? controller.updateBankAccount()
-                          //         : null;
                           controller.saveBankAccount();
                         },
-                        // name: controller.bankAccount == null
-                        //     ? "Submit"
-                        //     :controller.bankAccount != null &&
-                        //               controller.bankAccount?.verifiedAt == null
-                        //           ? "Update" : "",
-                        name: "Submit"),
+                        name: appLang.submit),
+                  ),
+                if (controller.bankValidationId.value == "1")
+                  Padding(
+                    padding: EdgeInsets.all(KSizes.hGapMedium),
+                    child: CustomButton(
+                        onTap: () {
+                          controller.goToContactValidationPage();
+                        },
+                        name: "Next"),
                   ),
               ],
             ),

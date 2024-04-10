@@ -1,17 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loan_app/app/bank_account_validation/api/bank_account_verification_api.dart';
+import 'package:loan_app/app/personal_info/api/personal_info_api.dart';
 import 'package:loan_app/app/personal_info/model/personal_info_model.dart';
+import 'package:loan_app/routes/routes.dart';
 
 class BankAccountValidationController extends GetxController {
   @override
   void onInit() {
-    initFunc();
+    getPersonalInfo();
     super.onInit();
   }
 
+  PhoneNumber? phoneNumber;
+
+  BankAccount? bankAccount;
+  Future<void> getPersonalInfo() async {
+    isLoading.value = true;
+
+    PersonalInfoModel? response = await PersonalInfoApi.getPersonalInfo();
+
+    if (response != null) {
+      bankAccount = response.data.bankAccount;
+      phoneNumber = response.data.phoneNumber;
+      initFunc();
+    }
+    isLoading.value = false;
+  }
+
   void initFunc() {
-    bankAccount = Get.arguments?["bank_account"];
     if (bankAccount != null) {
       nameController.text = bankAccount!.accHolderName;
       bankNameController.text = bankAccount!.bankName;
@@ -25,7 +42,8 @@ class BankAccountValidationController extends GetxController {
   TextEditingController accountNumController = TextEditingController();
   TextEditingController branchNameController = TextEditingController();
   RxBool isLoading = false.obs;
-  BankAccount? bankAccount;
+  RxString bankValidationId = "0".obs;
+
   Future<void> saveBankAccount() async {
     isLoading.value = true;
     Map<String, dynamic> body = {
@@ -38,9 +56,21 @@ class BankAccountValidationController extends GetxController {
         await BankAccountVerificationApi.saveBankAccountInfoApi(body: body);
 
     if (isSaved) {
-      Get.back<bool>(result: true);
+      Get.toNamed(Routes.contactValidationPage);
+      getPersonalInfo();
+       bankValidationId.value = "1";
     }
     isLoading.value = false;
+  }
+
+  void goToContactValidationPage() async {
+    bool? loadData =
+        await Get.toNamed(Routes.contactValidationPage, arguments: {
+      "phone_number": phoneNumber,
+    }) as bool?;
+    if (loadData ?? true) {
+      getPersonalInfo();
+    }
   }
 
   Future<void> updateBankAccount() async {

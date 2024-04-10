@@ -68,7 +68,7 @@ class PersonalInfoController extends GetxController {
         await Get.toNamed(Routes.contactValidationPage, arguments: {
       "phone_number": phoneNumber,
     }) as bool?;
-    if (loadData ?? false) {
+    if (loadData ?? true) {
       getPersonalInfo();
     }
   }

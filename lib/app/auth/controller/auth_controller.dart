@@ -75,7 +75,9 @@ class AuthController extends GetxController {
 
     if (response != null) {
       LocalStorage.saveApiToken(token: response.data.token);
+      LocalStorage.saveUserNumber(userNumber: regPhoneController.text);
       Get.offAllNamed(Routes.navigationPage);
+      // idCardVerificationPage
     }
     isLoading.value = false;
   }

@@ -151,11 +151,11 @@ class Loan {
 
 class LoanApplication {
   final int id;
-  final int amount;
-  final int installmentAmount;
-  final int payableAmount;
-  final int installments;
-  final int paidInstallments;
+  final dynamic amount;
+  final dynamic installmentAmount;
+  final dynamic payableAmount;
+  final dynamic installments;
+  final dynamic paidInstallments;
   final String interestRate;
   final String status;
   final String createdAt;

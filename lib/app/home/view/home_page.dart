@@ -244,7 +244,13 @@ class HomePage extends GetView<LoanChoiceController> {
                                         controller.dashBoardData!
                                                     .loanApplication ==
                                                 null
-                                            ? Get.toNamed(Routes.loanChoicePage)
+                                            ? controller.dashBoardData!.user
+                                                        .loanEligibled ==
+                                                    1
+                                                ? Get.toNamed(
+                                                    Routes.loanChoicePage)
+                                                : Get.toNamed(Routes
+                                                    .idCardVerificationPage)
                                             : Get.toNamed(Routes.walletPage);
                                       },
                                     ))

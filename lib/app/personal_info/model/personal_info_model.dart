@@ -72,7 +72,7 @@ class PersonalInfo {
 class BankAccount {
   String accHolderName;
   String bankName;
-  String accNumber;
+  dynamic accNumber;
   String branchName;
   dynamic verifiedAt;
   dynamic notes;
@@ -113,8 +113,8 @@ class Eligibility {
   String monthlyIncome;
   String familyMember;
   String contactNumber;
-  int hasCar;
-  int ownsHouse;
+  dynamic hasCar;
+  dynamic ownsHouse;
   dynamic verifiedAt;
   dynamic notes;
 

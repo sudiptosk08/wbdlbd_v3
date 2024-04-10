@@ -24,7 +24,18 @@ class IDCardVerificationPage extends GetView<IdCardVerificationController> {
         children: [
           Scaffold(
             appBar: AppBar(
+              automaticallyImplyLeading: false,
               title: Text(appLang.idCardValidation),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Text(
+                    "Step 1/5",
+                    style:
+                        KTextStyles.appbarTitle.copyWith(color: KColors.white),
+                  ),
+                )
+              ],
             ),
             body: SingleChildScrollView(
               scrollDirection: Axis.vertical,
@@ -182,26 +193,26 @@ class IDCardVerificationPage extends GetView<IdCardVerificationController> {
                       ),
                     ),
                   ),
-                  // if (controller.nidCard == null ||
-                  //     controller.nidCard?.verifiedAt == null)
-                  if (controller.nidCard == null)
+                  if (controller.nidCard == null &&
+                      controller.nameController.text.isEmpty)
                     Padding(
                       padding: EdgeInsets.all(KSizes.hGapMedium),
                       child: CustomButton(
                           onTap: () {
-                            // controller.nidCard == null
-                            //     ? controller.saveIDCard()
-                            //     : controller.nidCard != null &&
-                            //             controller.nidCard?.verifiedAt == null
-                            //         ? controller.updateIDCard()
-                            //         : null;
                             controller.saveIDCard();
                           },
-                          // name: controller.nidCard?.verifiedAt != null
-                          //     ? "Submit"
-                          //     : "Update",
                           name: appLang.submit),
                     ),
+                  if (
+                      controller.nameController.text.isNotEmpty)
+                    Padding(
+                      padding: EdgeInsets.all(KSizes.hGapMedium),
+                      child: CustomButton(
+                          onTap: () {
+                            controller.goToEligibilityValidationPage();
+                          },
+                          name: "Next"),
+                    )
                 ],
               ),
             ),

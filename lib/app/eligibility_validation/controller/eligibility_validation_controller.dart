@@ -1,17 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loan_app/app/eligibility_validation/api/eligibility_verification_api.dart';
+import 'package:loan_app/app/personal_info/api/personal_info_api.dart';
 import 'package:loan_app/app/personal_info/model/personal_info_model.dart';
+import 'package:loan_app/routes/routes.dart';
 
 class EligibilityValidationController extends GetxController {
   @override
   void onInit() {
-    initFunc();
+    getPersonalInfo();
     super.onInit();
   }
 
+  Eligibility? eligibility;
+  BankAccount? bankAccount;
+
+  Future<void> getPersonalInfo() async {
+    isLoading.value = true;
+
+    PersonalInfoModel? response = await PersonalInfoApi.getPersonalInfo();
+
+    if (response != null) {
+      eligibility = response.data.eligibility;
+      bankAccount = response.data.bankAccount;
+      initFunc();
+    }
+    isLoading.value = false;
+  }
+
   void initFunc() {
-    eligibility = Get.arguments?["eligibility"];
     if (eligibility != null) {
       nameController.text = eligibility!.name;
       educationController.text = eligibility!.education;
@@ -26,9 +43,7 @@ class EligibilityValidationController extends GetxController {
   }
 
   RxBool isLoading = false.obs;
-  RxString carSelection ="0".obs;
-  RxString houseSelection = "0".obs;
-  Eligibility? eligibility;
+
   TextEditingController nameController = TextEditingController();
   TextEditingController educationController = TextEditingController();
   TextEditingController occupationController = TextEditingController();
@@ -36,6 +51,9 @@ class EligibilityValidationController extends GetxController {
   TextEditingController monthlyIncomeController = TextEditingController();
   TextEditingController familyMemberController = TextEditingController();
   TextEditingController contactController = TextEditingController();
+  RxString carSelection = "0".obs;
+  RxString houseSelection = "0".obs;
+  RxString eligibilityId = "0".obs;
 
   Future<void> saveEligibility() async {
     isLoading.value = true;
@@ -51,9 +69,21 @@ class EligibilityValidationController extends GetxController {
       "owns_house": houseSelection.value.toString()
     });
     if (isSaved) {
-      Get.back<bool>(result: true);
+      getPersonalInfo();
+      Get.toNamed(Routes.bankAccountValidationPage);
+      eligibilityId.value = "1";
     }
     isLoading.value = false;
+  }
+
+  void goToBankAccountValidationPage() async {
+    bool? loadData =
+        await Get.toNamed(Routes.bankAccountValidationPage, arguments: {
+      "bank_account": bankAccount,
+    }) as bool?;
+    if (loadData ?? true) {
+      getPersonalInfo();
+    }
   }
 
   Future<void> updateEligibility() async {
@@ -71,7 +101,7 @@ class EligibilityValidationController extends GetxController {
       "owns_house": houseSelection.value.toString()
     });
     if (isUpdated) {
-      Get.back<bool>(result: true);
+      Get.toNamed(Routes.bankAccountValidationPage);
     }
     isLoading.value = false;
   }

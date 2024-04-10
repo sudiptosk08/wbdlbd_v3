@@ -275,13 +275,7 @@ class LoanChoicePage extends GetView<LoanChoiceController> {
                 child: CustomButton(
                   name: appLang.submit,
                   onTap: () {
-                    if (controller.dashBoardData!.user.loanEligibled == 1) {
-                      controller.loanchoiceApply();
-                    } else {
-                      ToastMessage.error(
-                          appLang.youAreNotEligiableForLoanRequest);
-                      Get.toNamed(Routes.personalInfoPage);
-                    }
+                    controller.loanchoiceApply();
                   },
                 ),
               ),

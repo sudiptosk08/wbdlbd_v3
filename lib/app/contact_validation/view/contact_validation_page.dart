@@ -20,7 +20,19 @@ class ContactValidationPage extends GetView<ContactValidationController> {
         children: [
           Scaffold(
             backgroundColor: KColors.white,
-            appBar: AppBar(title: Text(appLang.phoneNumberValidation)),
+            appBar: AppBar(
+              title: Text(appLang.phoneNumberValidation),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Text(
+                    "Step 4/5",
+                    style:
+                        KTextStyles.appbarTitle.copyWith(color: KColors.white),
+                  ),
+                )
+              ],
+            ),
             body: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
@@ -121,30 +133,24 @@ class ContactValidationPage extends GetView<ContactValidationController> {
                       ],
                     ),
                   ),
-                  // if (controller.phoneNumber == null ||
-                  //     controller.phoneNumber?.verifiedAt == null)
-                  if (controller.phoneNumber == null)
+                  if (controller.phoneNumber == null &&
+                      controller.contactValidationId.value == "0")
                     Padding(
                       padding: EdgeInsets.all(KSizes.hGapMedium),
                       child: CustomButton(
                           onTap: () {
-                            // controller.phoneNumber == null
-                            //     ? controller.saveContactInfo()
-                            //     : controller.phoneNumber != null &&
-                            //             controller.phoneNumber?.verifiedAt ==
-                            //                 null
-                            //         ? controller.updateContactInfo()
-                            //         : null;
                             controller.saveContactInfo();
                           },
-                          // name: controller.phoneNumber == null
-                          //     ? "Submit"
-                          //     : controller.phoneNumber != null &&
-                          //             controller.phoneNumber?.verifiedAt == null
-                          //         ? "Update"
-                          //         : "",
-
-                          name: "Submit"),
+                          name: appLang.submit),
+                    ),
+                  if (controller.contactValidationId.value == "1")
+                    Padding(
+                      padding: EdgeInsets.all(KSizes.hGapMedium),
+                      child: CustomButton(
+                          onTap: () {
+                            controller.goToSignatureValidationPage();
+                          },
+                          name: "Next"),
                     ),
                 ],
               ),

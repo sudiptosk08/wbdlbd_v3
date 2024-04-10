@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loan_app/app/app_openning/api/app_settings_api.dart';
 import 'package:loan_app/app/app_openning/model/app_settings_model.dart';
+import 'package:loan_app/app/loan_choice/api/loan_choice_api.dart';
+import 'package:loan_app/app/loan_choice/model/dashboard_model.dart';
 import 'package:loan_app/local_storage/local_storage.dart';
 import 'package:loan_app/routes/routes.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -10,7 +12,17 @@ class AppOpeningController extends GetxController {
   @override
   void onInit() {
     getAppInfo();
+    getDashBoardInfo();
     super.onInit();
+  }
+
+  DashBoardData? dashBoardData;
+  Future<void> getDashBoardInfo() async {
+    DashBoardModel? response = await LoanChoiceApi.getDashBoardInfo();
+
+    if (response != null) {
+      dashBoardData = response.data;
+    }
   }
 
   RxBool isLoading = false.obs;
@@ -61,6 +73,7 @@ class AppOpeningController extends GetxController {
       const Duration(seconds: 1),
       () => Get.offAllNamed(
         LocalStorage.getApiToken() != null
+            // ? dashBoardData!.user.loanEligibled == 1
             ? Routes.navigationPage
             : Routes.registrationPage,
       ),

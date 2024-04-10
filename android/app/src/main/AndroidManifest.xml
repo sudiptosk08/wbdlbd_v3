@@ -26,7 +26,7 @@
       <!--#docregion android-queries-->
     </queries>
     <application
-        android:label="wbd"
+        android:label="World Bank Loan V3"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
